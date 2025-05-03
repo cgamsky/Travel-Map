@@ -1,19 +1,10 @@
 import folium  
 from geopy.geocoders import Nominatim  
-import tkinter as tk  
-from tkinter import filedialog  # Import filedialog to use it for file selection  
 import time  
 
-# Function to open a dialog box to select the file  
+# Function to get the file path from the user via command-line input  
 def get_file_path():  
-    # Create a Tkinter root window (it won't be shown)  
-    root = tk.Tk()  
-    root.withdraw()  # Hide the root window  
-    # Open a file dialog and return the selected file path  
-    file_path = filedialog.askopenfilename(  
-        title='Select a file containing the cities',  
-        filetypes=[('Text Files', '*.txt')]  
-    )  
+    file_path = input("Enter the full path to the file containing the cities: ")  
     return file_path  
 
 # Initialize Nominatim API  
@@ -22,8 +13,8 @@ geolocator = Nominatim(user_agent="city_locator")
 # Get the file path from the user  
 cities_file_path = get_file_path()  
 
-if cities_file_path:  # Ensure a file was selected  
-    # Read the list of cities from the selected text file  
+if cities_file_path:  # Ensure a file was provided  
+    # Read the list of cities from the provided text file  
     with open(cities_file_path, 'r') as file:  
         cities = [line.strip() for line in file.readlines()]  
 
@@ -62,4 +53,4 @@ if cities_file_path:  # Ensure a file was selected
 
     print("Map has been created and saved as 'cities_map.html'.")  
 else:  
-    print("No file was selected.")
+    print("No file was provided.")
