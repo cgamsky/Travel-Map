@@ -1,4 +1,5 @@
 import folium  
+from folium.plugins import MarkerCluster
 from geopy.geocoders import Nominatim  
 import time  
 
@@ -16,19 +17,20 @@ cities_file_path = get_file_path()
 if cities_file_path:  # Ensure a file was provided  
     # Read the list of cities from the provided text file  
     with open(cities_file_path, 'r') as file:  
-        cities = [line.strip() for line in file.readlines()]  
+        cities = [line.strip() for line in file.readlines() if line.strip()]  
 
     # Create a base map  
     map_center = [39.8283, -98.5795]  # Approximate center of the USA  
-    map_zoom = 4  
-    mymap = folium.Map(location=map_center, zoom_start=map_zoom)  
+    mymap = folium.Map(location=map_center, zoom_start=4, tiles="CartoDB Positron")  
+
+    marker_cluster = MarkerCluster().add_to(mymap)
 
     # Function to get coordinates of a city  
     def get_coordinates(city):  
         try:  
             location = geolocator.geocode(city)  
             if location:  # Check if location is found  
-                return (location.latitude, location.longitude)  
+                return (location.latitude, location.longitude, location.address)  
             else:  
                 print(f"{city} was not found.")  
                 return None  
@@ -41,11 +43,13 @@ if cities_file_path:  # Ensure a file was provided
         print(f"Processing {city}...")  # Print progress  
         coords = get_coordinates(city)  
         if coords:  
+            lat, lon, address = coords
+            popup_html = f"<b>{city}</b><br>{address}"
             folium.Marker(  
-                location=coords,  
-                popup=city,  
+                location=[lat, lon],  
+                popup=popup_html,  
                 icon=folium.Icon(color='blue', icon='info-sign')  
-            ).add_to(mymap)  
+            ).add_to(marker_cluster)  
         time.sleep(1)  # Sleep to respect rate limiting  
 
     # Save the map to an HTML file  
