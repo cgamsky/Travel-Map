@@ -1,1 +1,57 @@
-This is a simple app that takes a list of cities and locates them on a map.
+# Travel Map
+
+This project generates an interactive map of cities using Python, [Folium](https://python-visualization.github.io/folium/), and [Geopy](https://geopy.readthedocs.io/). The map displays markers for each city listed in a text file, with detailed popups and marker clustering for easy exploration.
+
+## Features
+
+- Interactive map with modern CartoDB Positron tiles
+- Marker clustering for dense areas
+- Popups with detailed location info (address, etc.)
+- Easy to use: just provide a text file with city names
+
+## Requirements
+
+- Python 3.8+
+- [folium](https://pypi.org/project/folium/)
+- [geopy](https://pypi.org/project/geopy/)
+
+Install dependencies with:
+```bash
+pip install folium geopy
+```
+
+## Usage
+
+1. **Prepare your cities file:**  
+   Create a text file (e.g., `cities.txt`) with one city per line, e.g.:
+   ```
+   New York, NY
+   San Francisco, CA
+   Paris, France
+   ```
+
+2. **Run the script:**
+   ```bash
+   python create\ map.py
+   ```
+   When prompted, enter the full path to your `cities.txt` file.
+
+3. **View your map:**  
+   The script will generate `cities_map.html` in your project folder. Open it in your browser to explore your travel map!
+
+## Example
+
+
+## Notes
+
+- The script uses [Nominatim](https://nominatim.org/) for geocoding. Please respect their usage policy and avoid excessive requests.
+- If you have a large list, the script waits 1 second between requests to avoid rate limiting.
+- You can change the map style by editing the `tiles` parameter in the script.
+
+## License
+
+MIT License
+
+---
+
+*Created by Christopher Gamsky*
